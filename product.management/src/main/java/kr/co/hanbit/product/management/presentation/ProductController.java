@@ -13,7 +13,7 @@ public class ProductController {
 
     @Autowired
     ProductController(SimpleProductService simpleProductService) {
-        simpleProductService = simpleProductService;
+        this.simpleProductService = simpleProductService;
     }
 
     @RequestMapping(value = "/products", method = RequestMethod.POST)

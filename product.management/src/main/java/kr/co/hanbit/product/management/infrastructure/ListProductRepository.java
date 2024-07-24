@@ -44,7 +44,6 @@ public class ListProductRepository {
 
     public void delete(Long id) {
         Product product = findById(id);
-        Integer indexToDelete = products.indexOf(product);
-        products.remove(indexToDelete);
+        products.remove(product);
     }
 }
