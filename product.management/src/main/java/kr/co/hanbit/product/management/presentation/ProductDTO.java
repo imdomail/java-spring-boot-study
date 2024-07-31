@@ -1,9 +1,18 @@
 package kr.co.hanbit.product.management.presentation;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class ProductDTO {
     private Long id;
+
+    @NotBlank
     private String name;
+
+    @NotNull
     private Integer price;
+
+    @NotNull
     private Integer amount;
 
 

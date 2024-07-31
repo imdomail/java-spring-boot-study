@@ -1,5 +1,6 @@
 package kr.co.hanbit.product.management.presentation;
 
+import jakarta.validation.Valid;
 import kr.co.hanbit.product.management.application.SimpleProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/products", method = RequestMethod.POST)
-    public ProductDTO createProduct(@RequestBody ProductDTO productDto) {
+    public ProductDTO createProduct(@Valid @RequestBody ProductDTO productDto) {
         return simpleProductService.add(productDto);
     }
 
