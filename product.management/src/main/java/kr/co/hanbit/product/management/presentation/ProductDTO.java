@@ -26,6 +26,12 @@ public class ProductDTO {
         this.amount = amount;
     }
 
+    public ProductDTO(Long id, String name, Integer price, Integer amount) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.amount = amount;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -60,21 +66,20 @@ public class ProductDTO {
     }
 
     public static Product toEntity(ProductDTO productDto) {
-        Product product = new Product();
-        product.setId(productDto.getId());
-        product.setName(productDto.getName());
-        product.setAmount(productDto.getAmount());
-        product.setPrice(productDto.getPrice());
-        return product;
+        return new Product(
+                productDto.getId(),
+                productDto.getName(),
+                productDto.getPrice(),
+                productDto.getAmount()
+        );
     }
 
     public static ProductDTO toDTO(Product product) {
-        ProductDTO productDto = new ProductDTO(
+        return new ProductDTO(
+                product.getId(),
                 product.getName(),
                 product.getPrice(),
                 product.getAmount()
         );
-        productDto.setId(product.getId());
-        return productDto;
     }
 }
