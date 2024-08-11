@@ -47,6 +47,18 @@ public class ProductDTO {
         return amount;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { // 동일하면 동등함
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ProductDTO productDto = (ProductDTO) o;
+        return Objects.equals(id, productDto.id);
+    }
+
     public static Product toEntity(ProductDTO productDto) {
         Product product = new Product();
         product.setId(productDto.getId());
