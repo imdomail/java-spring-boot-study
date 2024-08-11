@@ -14,13 +14,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@ActiveProfiles("prod")
+@ActiveProfiles("test")
 class SimpleProductServiceTest {
 
     @Autowired
     SimpleProductService simpleProductService;
 
-    @Transactional
+//    @Transactional
     @Test
     @DisplayName("상품을 추가한 후 id로 조회하면 해당 상품이 조회되어야 한다.")
     void productAddAndFindByIdTest() {
@@ -37,7 +37,7 @@ class SimpleProductServiceTest {
         assertEquals(savedProductDto.getAmount(), foundProductDTO.getAmount());
     }
 
-    @Transactional
+//    @Transactional
     @Test
     @DisplayName("상품을 추가한 후 전체 조회를 하면 추가한 상품들이 조회되어야 한다.")
     void productAddAndFindAllTest() {
@@ -77,7 +77,7 @@ class SimpleProductServiceTest {
         assertEquals(foundProduct3.getAmount(), savedProductDto3.getAmount());
     }
 
-    @Transactional
+//    @Transactional
     @Test
     @DisplayName("상품 이름으로 조회하면 해당 상품들이 조회되어야 한다.")
     void findByNameContainingTest() {
@@ -90,7 +90,7 @@ class SimpleProductServiceTest {
         assertTrue(productDtos.stream().allMatch(productDto -> productDto.getName().contains(keyword)));
     }
 
-    @Transactional
+//    @Transactional
     @Test
     @DisplayName("상품을 업데이트하면 해당 상품 정보가 바뀌어야 한다.")
     void productUpdateTest() {
@@ -111,7 +111,7 @@ class SimpleProductServiceTest {
         assertEquals(foundProductDto.getAmount(), updatedProductDto.getAmount());
     }
 
-    @Transactional
+//    @Transactional
     @Test
     @DisplayName("상품을 삭제한 뒤 조회하면 해당 상품이 존재하지 않아야 한다.")
     void productDeleteTest() {
