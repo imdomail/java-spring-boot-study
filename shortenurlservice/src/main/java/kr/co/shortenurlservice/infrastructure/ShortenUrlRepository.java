@@ -20,4 +20,8 @@ public class ShortenUrlRepository {
         return shortenUrls.values();
     }
 
+    public ShortenUrl findByShortenUrlKey(String shortenUrlKey) {
+        return shortenUrls.get(shortenUrlKey);
+    }
+
 }

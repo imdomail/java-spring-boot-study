@@ -36,6 +36,10 @@ public class ShortenUrlService {
         return key.toString();
     }
 
+    public ShortenUrl findByShortenUrlKey(String key) {
+        return shortenUrlRepository.findByShortenUrlKey(key);
+    }
+
     public Collection<ShortenUrl> findAll() {
         return shortenUrlRepository.findAll();
     }
