@@ -1,15 +1,27 @@
 package kr.co.shortenurlservice.application;
 
 import kr.co.shortenurlservice.domain.ShortenUrl;
+import kr.co.shortenurlservice.infrastructure.ShortenUrlRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 
 @Service
 public class ShortenUrlService {
 
+    private ShortenUrlRepository shortenUrlRepository;
+
+    @Autowired
+    ShortenUrlService(ShortenUrlRepository shortenUrlRepository) {
+        this.shortenUrlRepository = shortenUrlRepository;
+    }
+
     public ShortenUrl createShortenUrl(String originalUrl) {
         String shortenUrlKey = this.generateKey(originalUrl);
-        // TODO: add to list
-        return new ShortenUrl(originalUrl, shortenUrlKey);
+        ShortenUrl shortenUrl = new ShortenUrl(originalUrl, shortenUrlKey);
+        shortenUrlRepository.add(shortenUrl);
+        return shortenUrl;
     }
 
     private String generateKey(String originalUrl) {
@@ -22,6 +34,10 @@ public class ShortenUrlService {
             key.append(randomChar);
         }
         return key.toString();
+    }
+
+    public Collection<ShortenUrl> findAll() {
+        return shortenUrlRepository.findAll();
     }
 
 }
