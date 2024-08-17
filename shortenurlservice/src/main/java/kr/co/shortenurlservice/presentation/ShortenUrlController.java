@@ -5,6 +5,7 @@ import kr.co.shortenurlservice.domain.ShortenUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,10 +21,9 @@ public class ShortenUrlController {
     }
 
     @RequestMapping(value = "/shorten-url", method = RequestMethod.POST)
-    public ShortenUrl createShortenUrl() {
-        // 단축 url 생성하기
-        System.out.println("CreateShortenUrl");
-        return new ShortenUrl();
+    public CreateShortenUrlResponseDTO createShortenUrl(@RequestBody String originalUrl) {
+        ShortenUrl shortenUrl = shortenUrlService.createShortenUrl(originalUrl);
+        return CreateShortenUrlResponseDTO.toDTO(shortenUrl);
     }
 
     @RequestMapping(value = "/shorten-url/{key}", method = RequestMethod.GET)
