@@ -24,4 +24,10 @@ public class ShortenUrlRepository {
         return shortenUrls.get(shortenUrlKey);
     }
 
+    public ShortenUrl findByShortenUrlKeyAndIncreaseCount(String key) {
+        ShortenUrl foundShortenUrl = findByShortenUrlKey(key);
+        foundShortenUrl.increaseRedirectCount();
+        return foundShortenUrl;
+    }
+
 }

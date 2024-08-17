@@ -40,6 +40,10 @@ public class ShortenUrlService {
         return shortenUrlRepository.findByShortenUrlKey(key);
     }
 
+    public ShortenUrl findByShortenUrlKeyAndIncreaseCount(String key) {
+        return shortenUrlRepository.findByShortenUrlKeyAndIncreaseCount(key);
+    }
+
     public Collection<ShortenUrl> findAll() {
         return shortenUrlRepository.findAll();
     }

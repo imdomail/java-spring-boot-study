@@ -26,16 +26,14 @@ public class ShortenUrlController {
         return CreateShortenUrlResponseDTO.toDTO(shortenUrl);
     }
 
-    @RequestMapping(value = "/shorten-url/{key}", method = RequestMethod.GET)
-    public ShortenUrl getShortenUrlInformation() {
-        // 정보 조회
-        System.out.println("GetShortenUrlInformation");
-        return new ShortenUrl();
+    @RequestMapping(value = "/shorten-url/{shortenUrlKey}", method = RequestMethod.GET)
+    public ShortenUrl getShortenUrlInformation(@PathVariable String shortenUrlKey) {
+        return shortenUrlService.findByShortenUrlKey(shortenUrlKey);
     }
 
     @RequestMapping(value = "/{shortenUrlKey}", method = RequestMethod.GET)
     public ResponseEntity redirectShortenUrl(@PathVariable String shortenUrlKey) {
-        ShortenUrl shortenUrl = shortenUrlService.findByShortenUrlKey(shortenUrlKey);
+        ShortenUrl shortenUrl = shortenUrlService.findByShortenUrlKeyAndIncreaseCount(shortenUrlKey);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(shortenUrl.getOriginalUrl()));
 
