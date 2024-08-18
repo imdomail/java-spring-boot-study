@@ -25,6 +25,8 @@ public class ShortenUrlDTO {
         return shortenUrlKey;
     }
 
+    public int getRedirectCount() { return redirectCount; };
+
     public static ShortenUrlDTO toDTO(ShortenUrl shortenUrl) {
         return new ShortenUrlDTO(
                 shortenUrl.getOriginalUrl(),
