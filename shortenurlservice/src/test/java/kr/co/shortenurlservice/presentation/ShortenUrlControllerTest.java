@@ -37,13 +37,24 @@ class ShortenUrlControllerTest {
     }
 
     @Test
-    @DisplayName("없는 키로 조회하면 404 Not Found 에러를 받는다.")
-    void entityNotFoundExceptionTest() throws Exception {
+    @DisplayName("없는 키로 리다이렉트 시도하면 404 Not Found 에러를 받는다.")
+    void redirectWithInvalidShortenUrlKeyTest() throws Exception {
         String notExistShortenUrlKey = "XXXXXXXX";
 
         when(shortenUrlService.findByShortenUrlKeyAndIncreaseCount(any())).thenThrow(EntityNotFoundException.class);
 
         mockMvc.perform(get("/" + notExistShortenUrlKey))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("없는 키로 정보 조회하면 404 Not Found 에러를 받는다.")
+    void entityNotFoundExceptionTest() throws Exception {
+        String notExistShortenUrlKey = "XXXXXXXX";
+
+        when(shortenUrlService.findByShortenUrlKey(any())).thenThrow(EntityNotFoundException.class);
+
+        mockMvc.perform(get("/shorten-url/" + notExistShortenUrlKey))
                 .andExpect(status().isNotFound());
     }
 
