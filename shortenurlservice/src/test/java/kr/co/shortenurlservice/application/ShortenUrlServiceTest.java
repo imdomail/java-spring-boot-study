@@ -1,7 +1,8 @@
 package kr.co.shortenurlservice.application;
 
 import kr.co.shortenurlservice.domain.EntityNotFoundException;
-import kr.co.shortenurlservice.domain.ShortenUrl;
+import kr.co.shortenurlservice.presentation.CreateShortenUrlRequestDTO;
+import kr.co.shortenurlservice.presentation.ShortenUrlDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,18 @@ class ShortenUrlServiceTest {
     @DisplayName("CreateShortenUrl은 단축 key를 생성하고 저장한다.")
     void createShortenUrlTest() {
         String originalUrl = "https://www.banul.co.kr/shop/shopbrand.html?type=Y&xcode=114";
+        CreateShortenUrlRequestDTO request = new CreateShortenUrlRequestDTO(originalUrl);
 
-        ShortenUrl shortenUrl = shortenUrlService.createShortenUrl(originalUrl);
-        Collection<ShortenUrl> list = shortenUrlService.findAll();
+        ShortenUrlDTO shortenUrlDTO = shortenUrlService.createShortenUrl(request);
+        assertEquals(shortenUrlDTO.getOriginalUrl(), originalUrl);
 
-        assertTrue(list.contains(shortenUrl));
-        assertEquals(shortenUrl.getOriginalUrl(), originalUrl);
+        Collection<ShortenUrlDTO> list = shortenUrlService.findAll();
+
+        ShortenUrlDTO found = list.stream().filter(savedShortenUrl -> {
+            return savedShortenUrl.getShortenUrlKey().equals(shortenUrlDTO.getShortenUrlKey())
+                    && savedShortenUrl.getOriginalUrl().equals(shortenUrlDTO.getOriginalUrl());
+        }).toList().get(0);
+        assertTrue(found != null);
     }
 
     @Test

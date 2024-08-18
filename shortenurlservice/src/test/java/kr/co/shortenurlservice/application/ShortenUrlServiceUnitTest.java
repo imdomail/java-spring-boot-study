@@ -1,7 +1,8 @@
 package kr.co.shortenurlservice.application;
 
-import kr.co.shortenurlservice.domain.ShortenUrl;
 import kr.co.shortenurlservice.infrastructure.ShortenUrlRepository;
+import kr.co.shortenurlservice.presentation.CreateShortenUrlRequestDTO;
+import kr.co.shortenurlservice.presentation.ShortenUrlDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,10 +26,11 @@ class ShortenUrlServiceUnitTest {
     @DisplayName("createShortenUrl은 key를 생성하고 ShortenUrl 객체를 리턴해야 한다.")
     void createShortenUrlTest() {
         String originalUrl = "https://www.banul.co.kr/shop/shopbrand.html?type=Y&xcode=114";
+        CreateShortenUrlRequestDTO request = new CreateShortenUrlRequestDTO(originalUrl);
 
-        ShortenUrl shortenUrl = shortenUrlService.createShortenUrl(originalUrl);
+        ShortenUrlDTO shortenUrlDTO = shortenUrlService.createShortenUrl(request);
 
-        assertEquals(shortenUrl.getOriginalUrl(), originalUrl);
-        assertEquals(shortenUrl.getShortenUrlKey().length(), 8);
+        assertEquals(shortenUrlDTO.getOriginalUrl(), originalUrl);
+        assertEquals(shortenUrlDTO.getShortenUrlKey().length(), 8);
     }
 }

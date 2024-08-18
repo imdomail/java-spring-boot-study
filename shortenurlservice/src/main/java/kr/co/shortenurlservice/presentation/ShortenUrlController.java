@@ -1,7 +1,6 @@
 package kr.co.shortenurlservice.presentation;
 
 import kr.co.shortenurlservice.application.ShortenUrlService;
-import kr.co.shortenurlservice.domain.ShortenUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,20 +21,20 @@ public class ShortenUrlController {
 
     @RequestMapping(value = "/shorten-url", method = RequestMethod.POST)
     public CreateShortenUrlResponseDTO createShortenUrl(@RequestBody CreateShortenUrlRequestDTO request) {
-        ShortenUrl shortenUrl = shortenUrlService.createShortenUrl(request.originalUrl);
-        return CreateShortenUrlResponseDTO.toDTO(shortenUrl);
+        ShortenUrlDTO shortenUrlDTO = shortenUrlService.createShortenUrl(request);
+        return new CreateShortenUrlResponseDTO(shortenUrlDTO);
     }
 
     @RequestMapping(value = "/shorten-url/{shortenUrlKey}", method = RequestMethod.GET)
-    public ShortenUrl getShortenUrlInformation(@PathVariable String shortenUrlKey) {
+    public ShortenUrlDTO getShortenUrlInformation(@PathVariable String shortenUrlKey) {
         return shortenUrlService.findByShortenUrlKey(shortenUrlKey);
     }
 
     @RequestMapping(value = "/{shortenUrlKey}", method = RequestMethod.GET)
     public ResponseEntity redirectShortenUrl(@PathVariable String shortenUrlKey) {
-        ShortenUrl shortenUrl = shortenUrlService.findByShortenUrlKeyAndIncreaseCount(shortenUrlKey);
+        ShortenUrlDTO shortenUrlDTO = shortenUrlService.findByShortenUrlKeyAndIncreaseCount(shortenUrlKey);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(shortenUrl.getOriginalUrl()));
+        headers.setLocation(URI.create(shortenUrlDTO.getOriginalUrl()));
 
         return new ResponseEntity(headers, HttpStatus.MOVED_PERMANENTLY);
     }

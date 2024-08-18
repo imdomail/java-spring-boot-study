@@ -2,6 +2,8 @@ package kr.co.shortenurlservice.application;
 
 import kr.co.shortenurlservice.domain.ShortenUrl;
 import kr.co.shortenurlservice.infrastructure.ShortenUrlRepository;
+import kr.co.shortenurlservice.presentation.CreateShortenUrlRequestDTO;
+import kr.co.shortenurlservice.presentation.ShortenUrlDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +19,11 @@ public class ShortenUrlService {
         this.shortenUrlRepository = shortenUrlRepository;
     }
 
-    public ShortenUrl createShortenUrl(String originalUrl) {
-        String shortenUrlKey = this.generateKey(originalUrl);
-        ShortenUrl shortenUrl = new ShortenUrl(originalUrl, shortenUrlKey);
+    public ShortenUrlDTO createShortenUrl(CreateShortenUrlRequestDTO request) {
+        String shortenUrlKey = this.generateKey(request.originalUrl);
+        ShortenUrl shortenUrl = new ShortenUrl(request.originalUrl, shortenUrlKey);
         shortenUrlRepository.add(shortenUrl);
-        return shortenUrl;
+        return ShortenUrlDTO.toDTO(shortenUrl);
     }
 
     private String generateKey(String originalUrl) {
@@ -36,16 +38,18 @@ public class ShortenUrlService {
         return key.toString();
     }
 
-    public ShortenUrl findByShortenUrlKey(String key) {
-        return shortenUrlRepository.findByShortenUrlKey(key);
+    public ShortenUrlDTO findByShortenUrlKey(String key) {
+        return ShortenUrlDTO.toDTO(shortenUrlRepository.findByShortenUrlKey(key));
     }
 
-    public ShortenUrl findByShortenUrlKeyAndIncreaseCount(String key) {
-        return shortenUrlRepository.findByShortenUrlKeyAndIncreaseCount(key);
+    public ShortenUrlDTO findByShortenUrlKeyAndIncreaseCount(String key) {
+        return ShortenUrlDTO.toDTO(shortenUrlRepository.findByShortenUrlKeyAndIncreaseCount(key));
     }
 
-    public Collection<ShortenUrl> findAll() {
-        return shortenUrlRepository.findAll();
+    public Collection<ShortenUrlDTO> findAll() {
+        return shortenUrlRepository.findAll().stream()
+                .map((shortenUrl -> ShortenUrlDTO.toDTO(shortenUrl)))
+                .toList();
     }
 
 }
