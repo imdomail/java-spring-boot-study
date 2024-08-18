@@ -7,11 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,6 +46,21 @@ class ShortenUrlControllerTest {
 
         mockMvc.perform(get("/" + notExistShortenUrlKey))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("단축 URL을 생성할 수 있다.")
+    void createShortenUrlTest() throws Exception {
+        String requestJson = "{\"originalUrl\": \"https://www.ravelry.com/projects/barbelklee/passementerie\"}";
+        String responseJson = "{\"shortenUrlKey\":null}";
+
+        when(shortenUrlService.createShortenUrl(any())).thenReturn(new ShortenUrlDTO());
+
+        mockMvc.perform(post("/shorten-url")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(requestJson)
+                ).andExpect(status().isOk())
+                .andExpect(content().json(responseJson));
     }
 
     @Test
