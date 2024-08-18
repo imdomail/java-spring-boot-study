@@ -7,6 +7,10 @@ public class ShortenUrl {
 
     public ShortenUrl() {}
 
+    public ShortenUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
+    }
+
     public ShortenUrl(String originalUrl, String shortenUrlKey) {
         this.originalUrl = originalUrl;
         this.shortenUrlKey = shortenUrlKey;

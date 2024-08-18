@@ -37,6 +37,6 @@ public class ShortenUrlController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(shortenUrl.getOriginalUrl()));
 
-        return new ResponseEntity(headers, HttpStatus.PERMANENT_REDIRECT);
+        return new ResponseEntity(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 }
