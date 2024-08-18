@@ -1,5 +1,6 @@
 package kr.co.shortenurlservice.infrastructure;
 
+import kr.co.shortenurlservice.domain.EntityNotFoundException;
 import kr.co.shortenurlservice.domain.ShortenUrl;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +22,11 @@ public class ShortenUrlRepository {
     }
 
     public ShortenUrl findByShortenUrlKey(String shortenUrlKey) {
-        return shortenUrls.get(shortenUrlKey);
+        ShortenUrl found = shortenUrls.get(shortenUrlKey);
+        if (found == null) {
+            throw new EntityNotFoundException("단축 URL을 찾지 못했습니다.");
+        }
+        return found;
     }
 
     public ShortenUrl findByShortenUrlKeyAndIncreaseCount(String key) {

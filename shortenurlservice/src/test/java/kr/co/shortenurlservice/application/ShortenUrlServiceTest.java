@@ -1,5 +1,6 @@
 package kr.co.shortenurlservice.application;
 
+import kr.co.shortenurlservice.domain.EntityNotFoundException;
 import kr.co.shortenurlservice.domain.ShortenUrl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,5 +27,16 @@ class ShortenUrlServiceTest {
 
         assertTrue(list.contains(shortenUrl));
         assertEquals(shortenUrl.getOriginalUrl(), originalUrl);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 shortenUrlKey로 조회하면 EntityNotFoundException이 발생해야 한다.")
+    void findShortenUrlNotExistTest() {
+        String notExistShortenUrlKey = "XX";
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            shortenUrlService.findByShortenUrlKey(notExistShortenUrlKey);
+        });
+
     }
 }
