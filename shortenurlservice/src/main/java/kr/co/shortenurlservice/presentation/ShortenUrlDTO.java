@@ -6,6 +6,7 @@ public class ShortenUrlDTO {
     private String shortenUrlKey;
     private int redirectCount;
 
+    public ShortenUrlDTO() { }
     public ShortenUrlDTO(String originalUrl) {
         this.originalUrl = originalUrl;
     }

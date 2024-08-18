@@ -1,5 +1,6 @@
 package kr.co.shortenurlservice.presentation;
 
+import jakarta.validation.Valid;
 import kr.co.shortenurlservice.application.ShortenUrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +21,7 @@ public class ShortenUrlController {
     }
 
     @RequestMapping(value = "/shorten-url", method = RequestMethod.POST)
-    public CreateShortenUrlResponseDTO createShortenUrl(@RequestBody CreateShortenUrlRequestDTO request) {
+    public CreateShortenUrlResponseDTO createShortenUrl(@Valid @RequestBody CreateShortenUrlRequestDTO request) {
         ShortenUrlDTO shortenUrlDTO = shortenUrlService.createShortenUrl(request);
         return new CreateShortenUrlResponseDTO(shortenUrlDTO);
     }

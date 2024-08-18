@@ -15,10 +15,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.junit.jupiter.api.Assertions.*;
 
 @WebMvcTest(controllers = ShortenUrlController.class)
-class ShortenUrlControllerTest {
+class ShortenUrlControllerUnitTest {
 
     @MockBean
     private ShortenUrlService shortenUrlService;
@@ -61,6 +60,26 @@ class ShortenUrlControllerTest {
                     .content(requestJson)
                 ).andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
+    }
+
+    @Test
+    @DisplayName("body 값 없이 단축 URL 생성요청을 하면 400 Bad Request 에러를 받는다.")
+    void createShortenUrlEmptyBodyTest() throws Exception {
+        when(shortenUrlService.createShortenUrl(any())).thenReturn(new ShortenUrlDTO());
+
+        mockMvc.perform(post("/shorten-url"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("originalUrl 값 없이 단축 URL 생성요청을 하면 400 Bad Request 에러를 받는다.")
+    void createShortenUrlEmptyURLTest() throws Exception {
+        when(shortenUrlService.createShortenUrl(any())).thenReturn(new ShortenUrlDTO());
+
+        mockMvc.perform(post("/shorten-url")
+                .contentType("application/json")
+                .content("{ \"originalUrl\": \" \"}")
+        ).andExpect(status().isBadRequest());
     }
 
     @Test
