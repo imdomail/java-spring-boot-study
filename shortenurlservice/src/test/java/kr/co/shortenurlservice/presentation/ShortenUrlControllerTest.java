@@ -1,6 +1,7 @@
 package kr.co.shortenurlservice.presentation;
 
 import kr.co.shortenurlservice.application.ShortenUrlService;
+import kr.co.shortenurlservice.domain.EntityNotFoundException;
 import kr.co.shortenurlservice.domain.ShortenUrl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,17 @@ class ShortenUrlControllerTest {
 
         mockMvc.perform(get("/any-key"))
                 .andExpect(status().isMovedPermanently());
+    }
+
+    @Test
+    @DisplayName("없는 키로 조회하면 404 Not Found 에러를 받는다.")
+    void entityNotFoundExceptionTest() throws Exception {
+        String notExistShortenUrlKey = "XXXXXXXX";
+
+        when(shortenUrlService.findByShortenUrlKeyAndIncreaseCount(any())).thenThrow(EntityNotFoundException.class);
+
+        mockMvc.perform(get("/" + notExistShortenUrlKey))
+                .andExpect(status().isNotFound());
     }
 
 }
