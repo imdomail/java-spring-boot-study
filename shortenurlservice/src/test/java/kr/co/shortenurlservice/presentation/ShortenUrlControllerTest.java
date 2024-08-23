@@ -20,7 +20,7 @@ class ShortenUrlControllerTest {
     void getShortenUrlInformationTest() {
         String originalUrl = "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=339684077&start=wz&ptid=9&utm_source=aladin&utm_medium=wizard&utm_campaign=choice&utm_content=welcome";
         CreateShortenUrlRequestDTO request = new CreateShortenUrlRequestDTO(originalUrl);
-        CreateShortenUrlResponseDTO createResponse = shortenUrlController.createShortenUrl(request);
+        CreateShortenUrlResponseDTO createResponse = shortenUrlController.createShortenUrl(request).getBody();
 
         String shortenUrlKey = createResponse.shortenUrlKey;
 
@@ -36,8 +36,8 @@ class ShortenUrlControllerTest {
         String originalUrl = "https://threejs.org/manual/#en/custom-buffergeometry";
         CreateShortenUrlRequestDTO request = new CreateShortenUrlRequestDTO(originalUrl);
 
-        CreateShortenUrlResponseDTO response1 = shortenUrlController.createShortenUrl(request);
-        CreateShortenUrlResponseDTO response2 = shortenUrlController.createShortenUrl(request);
+        CreateShortenUrlResponseDTO response1 = shortenUrlController.createShortenUrl(request).getBody();
+        CreateShortenUrlResponseDTO response2 = shortenUrlController.createShortenUrl(request).getBody();
         ResponseEntity redirectResponse = shortenUrlController.redirectShortenUrl(response1.shortenUrlKey);
 
         assertTrue(redirectResponse.getStatusCode().isSameCodeAs(HttpStatus.MOVED_PERMANENTLY));

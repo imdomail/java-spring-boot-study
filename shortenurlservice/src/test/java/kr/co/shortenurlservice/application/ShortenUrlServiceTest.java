@@ -2,6 +2,7 @@ package kr.co.shortenurlservice.application;
 
 import kr.co.shortenurlservice.domain.EntityNotFoundException;
 import kr.co.shortenurlservice.presentation.CreateShortenUrlRequestDTO;
+import kr.co.shortenurlservice.presentation.CreateShortenUrlResponseDTO;
 import kr.co.shortenurlservice.presentation.ShortenUrlDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ class ShortenUrlServiceTest {
         String originalUrl = "https://www.banul.co.kr/shop/shopbrand.html?type=Y&xcode=114";
         CreateShortenUrlRequestDTO request = new CreateShortenUrlRequestDTO(originalUrl);
 
-        ShortenUrlDTO shortenUrlDTO = shortenUrlService.createShortenUrl(request);
+        CreateShortenUrlResponseDTO shortenUrlDTO = shortenUrlService.createShortenUrl(request);
         assertEquals(shortenUrlDTO.getOriginalUrl(), originalUrl);
 
         Collection<ShortenUrlDTO> list = shortenUrlService.findAll();
@@ -52,8 +53,8 @@ class ShortenUrlServiceTest {
         String originalUrl = "https://threejs.org/manual/#en/custom-buffergeometry";
         CreateShortenUrlRequestDTO request = new CreateShortenUrlRequestDTO(originalUrl);
 
-        ShortenUrlDTO shortenUrlDTO1 = shortenUrlService.createShortenUrl(request);
-        ShortenUrlDTO shortenUrlDTO2 = shortenUrlService.createShortenUrl(request);
+        CreateShortenUrlResponseDTO shortenUrlDTO1 = shortenUrlService.createShortenUrl(request);
+        CreateShortenUrlResponseDTO shortenUrlDTO2 = shortenUrlService.createShortenUrl(request);
 
         assertNotEquals(shortenUrlDTO1.getShortenUrlKey(), shortenUrlDTO2.getShortenUrlKey());
     }

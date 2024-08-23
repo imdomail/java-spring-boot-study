@@ -2,7 +2,7 @@ package kr.co.shortenurlservice.application;
 
 import kr.co.shortenurlservice.infrastructure.ShortenUrlRepository;
 import kr.co.shortenurlservice.presentation.CreateShortenUrlRequestDTO;
-import kr.co.shortenurlservice.presentation.ShortenUrlDTO;
+import kr.co.shortenurlservice.presentation.CreateShortenUrlResponseDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +28,7 @@ class ShortenUrlServiceUnitTest {
         String originalUrl = "https://www.banul.co.kr/shop/shopbrand.html?type=Y&xcode=114";
         CreateShortenUrlRequestDTO request = new CreateShortenUrlRequestDTO(originalUrl);
 
-        ShortenUrlDTO shortenUrlDTO = shortenUrlService.createShortenUrl(request);
+        CreateShortenUrlResponseDTO shortenUrlDTO = shortenUrlService.createShortenUrl(request);
 
         assertEquals(shortenUrlDTO.getOriginalUrl(), originalUrl);
         assertEquals(shortenUrlDTO.getShortenUrlKey().length(), 8);

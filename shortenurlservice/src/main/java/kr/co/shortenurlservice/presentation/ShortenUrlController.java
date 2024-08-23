@@ -21,9 +21,9 @@ public class ShortenUrlController {
     }
 
     @RequestMapping(value = "/shorten-url", method = RequestMethod.POST)
-    public CreateShortenUrlResponseDTO createShortenUrl(@Valid @RequestBody CreateShortenUrlRequestDTO request) {
-        ShortenUrlDTO shortenUrlDTO = shortenUrlService.createShortenUrl(request);
-        return new CreateShortenUrlResponseDTO(shortenUrlDTO);
+    public ResponseEntity<CreateShortenUrlResponseDTO> createShortenUrl(@Valid @RequestBody CreateShortenUrlRequestDTO request) {
+        CreateShortenUrlResponseDTO response = shortenUrlService.createShortenUrl(request);
+        return ResponseEntity.ok(response);
     }
 
     @RequestMapping(value = "/shorten-url/{shortenUrlKey}", method = RequestMethod.GET)

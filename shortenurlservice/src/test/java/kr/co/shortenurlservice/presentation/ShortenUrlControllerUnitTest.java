@@ -53,7 +53,7 @@ class ShortenUrlControllerUnitTest {
         String requestJson = "{\"originalUrl\": \"https://www.ravelry.com/projects/barbelklee/passementerie\"}";
         String responseJson = "{\"shortenUrlKey\":null}";
 
-        when(shortenUrlService.createShortenUrl(any())).thenReturn(new ShortenUrlDTO());
+        when(shortenUrlService.createShortenUrl(any())).thenReturn(new CreateShortenUrlResponseDTO());
 
         mockMvc.perform(post("/shorten-url")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -65,7 +65,7 @@ class ShortenUrlControllerUnitTest {
     @Test
     @DisplayName("body 값 없이 단축 URL 생성요청을 하면 400 Bad Request 에러를 받는다.")
     void createShortenUrlEmptyBodyTest() throws Exception {
-        when(shortenUrlService.createShortenUrl(any())).thenReturn(new ShortenUrlDTO());
+        when(shortenUrlService.createShortenUrl(any())).thenReturn(new CreateShortenUrlResponseDTO());
 
         mockMvc.perform(post("/shorten-url"))
                 .andExpect(status().isBadRequest());
@@ -74,7 +74,7 @@ class ShortenUrlControllerUnitTest {
     @Test
     @DisplayName("originalUrl 값 없이 단축 URL 생성요청을 하면 400 Bad Request 에러를 받는다.")
     void createShortenUrlEmptyURLTest() throws Exception {
-        when(shortenUrlService.createShortenUrl(any())).thenReturn(new ShortenUrlDTO());
+        when(shortenUrlService.createShortenUrl(any())).thenReturn(new CreateShortenUrlResponseDTO());
 
         mockMvc.perform(post("/shorten-url")
                 .contentType("application/json")
