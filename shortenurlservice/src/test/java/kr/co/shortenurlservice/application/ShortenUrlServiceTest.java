@@ -44,6 +44,17 @@ class ShortenUrlServiceTest {
         assertThrows(EntityNotFoundException.class, () -> {
             shortenUrlService.findByShortenUrlKey(notExistShortenUrlKey);
         });
+    }
 
+    @Test
+    @DisplayName("동일한 요청을 보내도 새로운 단축URL이 생성되어야 한다.")
+    void sameUrlTest() {
+        String originalUrl = "https://threejs.org/manual/#en/custom-buffergeometry";
+        CreateShortenUrlRequestDTO request = new CreateShortenUrlRequestDTO(originalUrl);
+
+        ShortenUrlDTO shortenUrlDTO1 = shortenUrlService.createShortenUrl(request);
+        ShortenUrlDTO shortenUrlDTO2 = shortenUrlService.createShortenUrl(request);
+
+        assertNotEquals(shortenUrlDTO1.getShortenUrlKey(), shortenUrlDTO2.getShortenUrlKey());
     }
 }
