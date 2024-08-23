@@ -42,12 +42,12 @@ public class ShortenUrlService {
         return shortenUrlKey.toString();
     }
 
-    public ShortenUrlDTO findByShortenUrlKey(String key) {
-        return ShortenUrlDTO.toDTO(shortenUrlRepository.findByShortenUrlKey(key));
+    public ShortenUrlDTO findByShortenUrlKey(String shortenUrlKey) {
+        return ShortenUrlDTO.toDTO(shortenUrlRepository.findByShortenUrlKey(shortenUrlKey));
     }
 
-    public ShortenUrlDTO findByShortenUrlKeyAndIncreaseCount(String key) {
-        return ShortenUrlDTO.toDTO(shortenUrlRepository.findByShortenUrlKeyAndIncreaseCount(key));
+    public ShortenUrlDTO findByShortenUrlKeyAndIncreaseCount(String shortenUrlKey) {
+        return ShortenUrlDTO.toDTO(shortenUrlRepository.findByShortenUrlKeyAndIncreaseCount(shortenUrlKey));
     }
 
     public Collection<ShortenUrlDTO> findAll() {

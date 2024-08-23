@@ -24,7 +24,7 @@ class ShortenUrlControllerTest {
 
         String shortenUrlKey = createResponse.shortenUrlKey;
 
-        ShortenUrlDTO shortenUrlDTO = shortenUrlController.getShortenUrlInformation(shortenUrlKey);
+        ShortenUrlDTO shortenUrlDTO = shortenUrlController.getShortenUrlInformation(shortenUrlKey).getBody();
         assertEquals(shortenUrlDTO.getOriginalUrl(), originalUrl);
         assertEquals(shortenUrlDTO.getShortenUrlKey(), shortenUrlKey);
         assertTrue(shortenUrlDTO.getRedirectCount() >= 0);

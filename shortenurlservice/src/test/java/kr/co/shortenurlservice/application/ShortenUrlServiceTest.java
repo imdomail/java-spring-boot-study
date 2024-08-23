@@ -34,7 +34,7 @@ class ShortenUrlServiceTest {
             return savedShortenUrl.getShortenUrlKey().equals(shortenUrlDTO.getShortenUrlKey())
                     && savedShortenUrl.getOriginalUrl().equals(shortenUrlDTO.getOriginalUrl());
         }).toList().get(0);
-        assertTrue(found != null);
+        assertNotNull(found);
     }
 
     @Test

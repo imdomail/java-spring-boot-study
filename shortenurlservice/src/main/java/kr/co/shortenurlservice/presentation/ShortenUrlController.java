@@ -27,8 +27,9 @@ public class ShortenUrlController {
     }
 
     @RequestMapping(value = "/shorten-url/{shortenUrlKey}", method = RequestMethod.GET)
-    public ShortenUrlDTO getShortenUrlInformation(@PathVariable String shortenUrlKey) {
-        return shortenUrlService.findByShortenUrlKey(shortenUrlKey);
+    public ResponseEntity<ShortenUrlDTO> getShortenUrlInformation(@PathVariable String shortenUrlKey) {
+        ShortenUrlDTO response = shortenUrlService.findByShortenUrlKey(shortenUrlKey);
+        return ResponseEntity.ok(response);
     }
 
     @RequestMapping(value = "/{shortenUrlKey}", method = RequestMethod.GET)
