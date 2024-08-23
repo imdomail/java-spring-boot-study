@@ -3,7 +3,7 @@ package kr.co.shortenurlservice.domain;
 public class ShortenUrl {
     private String originalUrl;
     private String shortenUrlKey;
-    private int redirectCount;
+    private Long redirectCount;
 
     public ShortenUrl() {}
 
@@ -14,7 +14,7 @@ public class ShortenUrl {
     public ShortenUrl(String originalUrl, String shortenUrlKey) {
         this.originalUrl = originalUrl;
         this.shortenUrlKey = shortenUrlKey;
-        this.redirectCount = 0;
+        this.redirectCount = 0L;
     }
 
     public String getOriginalUrl() {
@@ -25,7 +25,7 @@ public class ShortenUrl {
         return shortenUrlKey;
     }
 
-    public int getRedirectCount() {
+    public Long getRedirectCount() {
         return redirectCount;
     }
 
