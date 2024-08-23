@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Random;
 
 @Service
 public class ShortenUrlService {
@@ -29,9 +30,11 @@ public class ShortenUrlService {
     private String generateKey(String originalUrl) {
         String base58Characters = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
         int keyLength = 8;
+        Random random = new Random();
         StringBuilder key = new StringBuilder();
+
         for (int i = 0; i < keyLength; i++) {
-            int randomIdx = (int) Math.floor(Math.random() * base58Characters.length());
+            int randomIdx = random.nextInt(base58Characters.length());
             char randomChar = base58Characters.charAt(randomIdx);
             key.append(randomChar);
         }
