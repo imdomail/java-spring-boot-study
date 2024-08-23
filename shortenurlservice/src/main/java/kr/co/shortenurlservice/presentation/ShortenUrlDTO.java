@@ -14,7 +14,7 @@ public class ShortenUrlDTO {
     public ShortenUrlDTO(String originalUrl, String shortenUrlKey, Long redirectCount) {
         this.originalUrl = originalUrl;
         this.shortenUrlKey = shortenUrlKey;
-        this.redirectCount = 0L;
+        this.redirectCount = redirectCount;
     }
 
     public String getOriginalUrl() {
