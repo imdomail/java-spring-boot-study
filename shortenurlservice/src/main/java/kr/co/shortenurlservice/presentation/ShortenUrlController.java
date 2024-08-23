@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 @RestController
 public class ShortenUrlController {
@@ -33,11 +34,14 @@ public class ShortenUrlController {
     }
 
     @RequestMapping(value = "/{shortenUrlKey}", method = RequestMethod.GET)
-    public ResponseEntity redirectShortenUrl(@PathVariable String shortenUrlKey) {
+    public ResponseEntity redirectShortenUrl(@PathVariable String shortenUrlKey) throws URISyntaxException {
         ShortenUrlDTO shortenUrlDTO = shortenUrlService.findByShortenUrlKeyAndIncreaseCount(shortenUrlKey);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(shortenUrlDTO.getOriginalUrl()));
+        String originalUrl = shortenUrlDTO.getOriginalUrl();
 
-        return new ResponseEntity(headers, HttpStatus.MOVED_PERMANENTLY);
+        URI redirectUri = new URI(originalUrl);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(redirectUri);
+
+        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 }
