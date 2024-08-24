@@ -4,14 +4,14 @@ import kr.co.shortenurlservice.domain.ShortenUrl;
 public class ShortenUrlDTO {
     private String originalUrl;
     private String shortenUrlKey;
-    private int redirectCount;
+    private Long redirectCount;
 
     public ShortenUrlDTO() { }
     public ShortenUrlDTO(String originalUrl) {
         this.originalUrl = originalUrl;
     }
 
-    public ShortenUrlDTO(String originalUrl, String shortenUrlKey, int redirectCount) {
+    public ShortenUrlDTO(String originalUrl, String shortenUrlKey, Long redirectCount) {
         this.originalUrl = originalUrl;
         this.shortenUrlKey = shortenUrlKey;
         this.redirectCount = redirectCount;
@@ -25,7 +25,7 @@ public class ShortenUrlDTO {
         return shortenUrlKey;
     }
 
-    public int getRedirectCount() { return redirectCount; };
+    public Long getRedirectCount() { return redirectCount; };
 
     public static ShortenUrlDTO toDTO(ShortenUrl shortenUrl) {
         return new ShortenUrlDTO(
