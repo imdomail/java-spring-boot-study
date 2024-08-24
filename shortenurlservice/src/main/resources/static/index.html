@@ -22,6 +22,20 @@
         </div>
     </section>
 
+    <section>
+        <h2>정보 조회</h2>
+        <form onsubmit="return getShortenUrlInformation(shortenUrl.value);">
+            <label for="shortenUrl">정보 조회할 URL 입력</label>
+            <input #shortenUrl id="shortenUrl" placeholder="정보 호회할 URL을 입력하세요" type="url" />
+            <input type="submit" value="단축 URL 정보 조회하기" />
+        </form>
+
+        <div>
+            <strong>결과: </strong>
+            <span id="shortenUrlInformation"></span>
+        </div>
+    </section>
+
     <script>
         function makeShortenUrl(originalUrl) {
             const requestObject = { originalUrl };
@@ -45,6 +59,28 @@
             ajaxRequest.open('POST', '/shorten-url');
             ajaxRequest.setRequestHeader('Content-type', 'application/json');
             ajaxRequest.send(requestJson);
+
+            return false;
+        }
+
+        function getShortenUrlInformation(shortenUrl) {
+            function onReadyStateChange(event) {
+                if (ajaxRequest.readyState === XMLHttpRequest.DONE) {
+                    if (ajaxRequest.status !== 200) {
+                        alert('Request failed');
+                        return;
+                    }
+                    const shortenUrl = JSON.parse(ajaxRequest.responseText);
+                    const dom = document.querySelector('#shortenUrlInformation');
+                    dom.innerHTML = ajaxRequest.responseText;
+                }
+            }
+
+            const shortenUrlKey = shortenUrl.split('/')[3];
+            const ajaxRequest = new XMLHttpRequest();
+            ajaxRequest.onreadystatechange = onReadyStateChange;
+            ajaxRequest.open('GET', `/shorten-url/${shortenUrlKey}`);
+            ajaxRequest.send();
 
             return false;
         }
