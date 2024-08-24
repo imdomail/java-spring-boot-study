@@ -1,5 +1,7 @@
 package kr.co.shortenurlservice.application;
 
+import kr.co.shortenurlservice.domain.EntityNotFoundException;
+import kr.co.shortenurlservice.domain.LackOfShortenUrlKeyException;
 import kr.co.shortenurlservice.domain.ShortenUrl;
 import kr.co.shortenurlservice.infrastructure.ShortenUrlRepository;
 import kr.co.shortenurlservice.presentation.CreateShortenUrlRequestDTO;
@@ -22,13 +24,27 @@ public class ShortenUrlService {
     }
 
     public CreateShortenUrlResponseDTO createShortenUrl(CreateShortenUrlRequestDTO request) {
-        String shortenUrlKey = this.generateShortenUrlKey(request.originalUrl);
+        String shortenUrlKey = this.getUniqShortenUrlKey();
         ShortenUrl shortenUrl = new ShortenUrl(request.originalUrl, shortenUrlKey);
         shortenUrlRepository.add(shortenUrl);
         return new CreateShortenUrlResponseDTO(shortenUrl);
     }
 
-    private String generateShortenUrlKey(String originalUrl) {
+    private String getUniqShortenUrlKey() {
+        final int MAX_RETRY_COUNT = 5;
+        int count = 0;
+
+        while(count++ < MAX_RETRY_COUNT) {
+            String shortenUrlKey = generateShortenUrlKey();
+            ShortenUrl shortenUrl = shortenUrlRepository.findByShortenUrlKey(shortenUrlKey);
+            if (shortenUrl == null) {
+                return shortenUrlKey;
+            }
+        }
+        throw new LackOfShortenUrlKeyException();
+    }
+
+    private String generateShortenUrlKey() {
         String base58Characters = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
         int keyLength = 8;
         Random random = new Random();
@@ -43,11 +59,19 @@ public class ShortenUrlService {
     }
 
     public ShortenUrlDTO findByShortenUrlKey(String shortenUrlKey) {
-        return ShortenUrlDTO.toDTO(shortenUrlRepository.findByShortenUrlKey(shortenUrlKey));
+        ShortenUrl shortenUrl = shortenUrlRepository.findByShortenUrlKey(shortenUrlKey);
+        if (shortenUrl == null) {
+            throw new EntityNotFoundException("단축 URL을 찾지 못했습니다.");
+        }
+        return ShortenUrlDTO.toDTO(shortenUrl);
     }
 
     public ShortenUrlDTO findByShortenUrlKeyAndIncreaseCount(String shortenUrlKey) {
-        return ShortenUrlDTO.toDTO(shortenUrlRepository.findByShortenUrlKeyAndIncreaseCount(shortenUrlKey));
+        ShortenUrl shortenUrl  = shortenUrlRepository.findByShortenUrlKeyAndIncreaseCount(shortenUrlKey);
+        if (shortenUrl == null) {
+            throw new EntityNotFoundException("단축 URL을 찾지 못했습니다.");
+        }
+        return ShortenUrlDTO.toDTO(shortenUrl);
     }
 
     public Collection<ShortenUrlDTO> findAll() {

@@ -1,6 +1,7 @@
 package kr.co.shortenurlservice.presentation;
 
 import kr.co.shortenurlservice.domain.EntityNotFoundException;
+import kr.co.shortenurlservice.domain.LackOfShortenUrlKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -34,6 +35,17 @@ public class GlobalExceptionHandler {
                 .map(fieldError -> fieldError.getField() + ", " + fieldError.getDefaultMessage())
                 .toList();
         ErrorMessage errorMessage = new ErrorMessage(errors);
-        return new ResponseEntity(errorMessage, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(LackOfShortenUrlKeyException.class)
+    public ResponseEntity<ErrorMessage> handleLackOfShortenUrlKeyException(
+            LackOfShortenUrlKeyException ex
+    ) {
+        List<String> errors = new ArrayList<>();
+        errors.add("단축 URL 자원이 부족합니다.");
+
+        ErrorMessage errorMessage = new ErrorMessage(errors);
+        return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
