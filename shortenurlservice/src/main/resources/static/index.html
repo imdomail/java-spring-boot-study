@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL 단축 서비스</title>
+</head>
+<body>
+    <h1>URL 단축 서비스</h1>
+
+    <section>
+        <h2>만들기</h2>
+        <form onsubmit="return makeShortenUrl(originalUrl.value);">
+            <label for="originalUrl">단축할 URL 입력</label>
+            <input #originalUrl id="originalUrl" placeholder="단축할 URL을 입력하세요" required autofocus size="50" type="url" />
+            <input type="submit" value="단축 URL 생성하기" />
+        </form>
+
+        <div>
+            <strong>결과: </strong>
+            <span id="generatedUrl"></span>
+            <button>복사하기</button>
+        </div>
+    </section>
+
+    <script>
+        function makeShortenUrl(originalUrl) {
+            const requestObject = { originalUrl };
+            const requestJson = JSON.stringify(requestObject);
+
+            function onReadyStateChange(event) {
+                if (ajaxRequest.readyState === XMLHttpRequest.DONE) {
+                    if (ajaxRequest.status !== 200) {
+                        alert('Request failed');
+                        return;
+                    }
+                    const shortenUrl = JSON.parse(ajaxRequest.responseText);
+                    const completedShortenUrl = `${window.location.protocol}//${window.location.host}/${shortenUrl.shortenUrlKey}`;
+                    const dom = document.querySelector('#generatedUrl');
+                    dom.innerHTML = completedShortenUrl;
+                }
+            }
+
+            const ajaxRequest = new XMLHttpRequest();
+            ajaxRequest.onreadystatechange = onReadyStateChange;
+            ajaxRequest.open('POST', '/shorten-url');
+            ajaxRequest.setRequestHeader('Content-type', 'application/json');
+            ajaxRequest.send(requestJson);
+
+            return false;
+        }
+    </script>
+</body>
+</html>
