@@ -2,7 +2,6 @@
 https://storage.googleapis.com/imdoring-contents/thumbnail/20240824_090251.jpg
 - 이 책 전체 한 번 쭉 읽고 내용 습득한다.
 - 자바 예제 코드는 전부 따라 작성한다.
-- 복습: 깃헙 소스코드 각 영역에 설명 작성하기.
 
 # 목표
 1. 백엔드 개발 전반에 대한 지식 습득
