@@ -23,7 +23,8 @@ public class OrderRestController {
 
     @RequestMapping(value = "/orders", method = RequestMethod.POST)
     public ResponseEntity<OrderDto> createOrder(@RequestBody List<CreateOrderRequestDto> request) {
-        return ResponseEntity.ok(new OrderDto());
+        OrderDto orderDto = simpleOrderService.createOrder(request);
+        return ResponseEntity.ok(orderDto);
     }
 
     @RequestMapping(value = "/orders/{orderId}", method = RequestMethod.PATCH)
