@@ -1,5 +1,6 @@
 package kr.co.ordermanagement.presentation.dto;
 
+import kr.co.ordermanagement.domain.order.OrderedProduct;
 import kr.co.ordermanagement.domain.product.Product;
 
 public class ProductDto {
@@ -42,4 +43,14 @@ public class ProductDto {
         return productDto;
     }
 
+    public static ProductDto toDto(OrderedProduct product) {
+        ProductDto productDto = new ProductDto(
+                product.getId(),
+                product.getName(),
+                product.getPrice(),
+                product.getAmount()
+        );
+
+        return productDto;
+    }
 }

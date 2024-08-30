@@ -8,7 +8,7 @@ import java.util.List;
 
 public class OrderDto {
     private Long id;
-    private List<OrderedProductDto> orderedProducts;
+    private List<ProductDto> orderedProducts;
     private Integer totalPrice;
     private State state;
 
@@ -20,7 +20,7 @@ public class OrderDto {
         return totalPrice;
     }
 
-    public List<OrderedProductDto> getOrderedProducts() {
+    public List<ProductDto> getOrderedProducts() {
         return orderedProducts;
     }
 
@@ -28,11 +28,9 @@ public class OrderDto {
         return id;
     }
 
-    public OrderDto() {}
-
     public OrderDto(Long id, List<OrderedProduct> orderedProducts, Integer totalPrice, State state) {
         this.id = id;
-        this.orderedProducts = orderedProducts.stream().map(OrderedProductDto::toDto).toList();
+        this.orderedProducts = orderedProducts.stream().map(ProductDto::toDto).toList();
         this.totalPrice = totalPrice;
         this.state = state;
     }
