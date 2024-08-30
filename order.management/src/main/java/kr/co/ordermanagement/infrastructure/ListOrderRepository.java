@@ -28,7 +28,7 @@ public class ListOrderRepository implements OrderRepository {
         return orders.stream()
                 .filter(order -> order.sameId(id))
                 .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("주문을 찾지 못했습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("Order를 찾지 못했습니다."));
     }
 
     @Override
