@@ -1,6 +1,7 @@
 package kr.co.ordermanagement.domain.order;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Order {
     private Long id;
@@ -28,6 +29,10 @@ public class Order {
         this.id = id;
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
+
     public Order() {}
 
     public Order(List<OrderedProduct> orderedProducts) {
@@ -40,6 +45,14 @@ public class Order {
 
     public Boolean sameId(Long id) {
         return this.id.equals(id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id);
     }
 
 }

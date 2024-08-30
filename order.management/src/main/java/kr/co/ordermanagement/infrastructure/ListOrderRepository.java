@@ -38,4 +38,10 @@ public class ListOrderRepository implements OrderRepository {
                 .toList();
     }
 
+    @Override
+    public void update(Order order) {
+        Integer indexToModify = orders.indexOf(order);
+        orders.set(indexToModify, order);
+    }
+
 }

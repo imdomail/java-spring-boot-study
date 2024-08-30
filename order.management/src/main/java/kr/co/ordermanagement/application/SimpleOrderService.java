@@ -51,4 +51,11 @@ public class SimpleOrderService {
                 .map(OrderDto::toDto)
                 .toList();
     }
+
+    public OrderDto cancel(Long orderId) {
+        Order order = orderRepository.findById(orderId);
+        order.setState(State.CANCELED);
+        orderRepository.update(order);
+        return OrderDto.toDto(order);
+    }
 }
