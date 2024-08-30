@@ -3,6 +3,7 @@ package kr.co.ordermanagement.application;
 import kr.co.ordermanagement.domain.order.Order;
 import kr.co.ordermanagement.domain.order.OrderRepository;
 import kr.co.ordermanagement.domain.order.OrderedProduct;
+import kr.co.ordermanagement.domain.order.State;
 import kr.co.ordermanagement.domain.product.Product;
 import kr.co.ordermanagement.domain.product.ProductRepository;
 import kr.co.ordermanagement.presentation.dto.CreateOrderRequestDto;
@@ -43,5 +44,11 @@ public class SimpleOrderService {
     public OrderDto findById(Long orderId) {
         Order order = orderRepository.findById(orderId);
         return OrderDto.toDto(order);
+    }
+
+    public List<OrderDto> findByState(State state) {
+        return orderRepository.findByState(state).stream()
+                .map(OrderDto::toDto)
+                .toList();
     }
 }
