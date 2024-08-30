@@ -1,5 +1,7 @@
 package kr.co.ordermanagement.domain.order;
 
+import kr.co.ordermanagement.domain.exception.CanNotCancelOrderException;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -53,6 +55,13 @@ public class Order {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
         return Objects.equals(id, order.id);
+    }
+
+    public void cancel() {
+        if (this.state != State.CREATED) {
+            throw new CanNotCancelOrderException("이미 취소되었거나 취소할 수 없는 주문상태입니다.");
+        }
+        this.state = State.CANCELED;
     }
 
 }

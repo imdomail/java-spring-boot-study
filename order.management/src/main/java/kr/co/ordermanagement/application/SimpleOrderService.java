@@ -32,9 +32,7 @@ public class SimpleOrderService {
     public OrderDto createOrder(List<CreateOrderRequestDto > orderedInfos) {
         orderedInfos.stream().forEach(orderedInfo -> {
             Product product = productRepository.findById(orderedInfo.getId());
-            if (product.getAmount() - orderedInfo.getAmount() < 0) {
-                throw new LackOfProductAmountException(orderedInfo.getId() + "번 상품의 수량이 부족합니다.");
-            }
+            product.checkEnoughAmount(orderedInfo.getAmount());
         });
 
         List<OrderedProduct> orderedProducts = new ArrayList<>();
@@ -66,10 +64,7 @@ public class SimpleOrderService {
 
     public OrderDto cancel(Long orderId) {
         Order order = orderRepository.findById(orderId);
-        if (order.getState() != State.CREATED) {
-            throw new CanNotCancelOrderException("이미 취소되었거나 취소할 수 없는 주문상태입니다.");
-        }
-        order.setState(State.CANCELED);
+        order.cancel();
         orderRepository.update(order);
         return OrderDto.toDto(order);
     }

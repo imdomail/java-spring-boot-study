@@ -1,5 +1,7 @@
 package kr.co.ordermanagement.domain.product;
 
+import kr.co.ordermanagement.domain.exception.LackOfProductAmountException;
+
 import java.util.Objects;
 
 public class Product {
@@ -45,5 +47,11 @@ public class Product {
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
         return Objects.equals(id, product.id);
+    }
+
+    public void checkEnoughAmount(Integer amountToDecrease) {
+        if (this.amount < amountToDecrease) {
+            throw new LackOfProductAmountException(this.id + "번 상품의 수량이 부족합니다.");
+        }
     }
 }
