@@ -9,7 +9,7 @@ https://storage.googleapis.com/imdoring-contents/thumbnail/20240824_090251.jpg
 3. 앞으로의 공부 방향 정하기
 4. 자바 기초 문법, 언어 특징 간단히 습득
 
-# 프로젝트 구조
+# 폴더 설명
 - product.management: Chapter9 ~ 12 상품 관리 애플리케이션
 - shortenurlservice: Chapter13 단축 URL 서비스 개발
   - 과제 테스트 푼 다음에 책 보고 보충
