@@ -14,3 +14,5 @@ https://storage.googleapis.com/imdoring-contents/thumbnail/20240824_090251.jpg
 - shortenurlservice: Chapter13 단축 URL 서비스 개발
   - 과제 테스트 푼 다음에 책 보고 보충
   - 테스트 코드 추가
+- order.management: Chapter14 주문 관리 API 서버 개발
+  - 과제 푼 다음에 책 보고 보충
