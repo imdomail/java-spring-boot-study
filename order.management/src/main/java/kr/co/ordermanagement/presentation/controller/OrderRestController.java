@@ -33,7 +33,8 @@ public class OrderRestController {
             @PathVariable Long orderId,
             @RequestBody ChangeOrderStateRequestDto request
     ) {
-        return ResponseEntity.ok(new OrderDto());
+        OrderDto orderDto = simpleOrderService.changeStateForce(orderId, request);
+        return ResponseEntity.ok(orderDto);
     }
 
     @RequestMapping(value = "/orders/{orderId}", method = RequestMethod.GET)

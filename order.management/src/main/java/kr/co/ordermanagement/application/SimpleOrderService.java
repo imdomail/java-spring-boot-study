@@ -6,6 +6,7 @@ import kr.co.ordermanagement.domain.order.OrderedProduct;
 import kr.co.ordermanagement.domain.order.State;
 import kr.co.ordermanagement.domain.product.Product;
 import kr.co.ordermanagement.domain.product.ProductRepository;
+import kr.co.ordermanagement.presentation.dto.ChangeOrderStateRequestDto;
 import kr.co.ordermanagement.presentation.dto.CreateOrderRequestDto;
 import kr.co.ordermanagement.presentation.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,14 @@ public class SimpleOrderService {
     public OrderDto cancel(Long orderId) {
         Order order = orderRepository.findById(orderId);
         order.setState(State.CANCELED);
+        orderRepository.update(order);
+        return OrderDto.toDto(order);
+    }
+
+    public OrderDto changeStateForce(Long orderId, ChangeOrderStateRequestDto request) {
+        State state = request.getState();
+        Order order = orderRepository.findById(orderId);
+        order.setState(state);
         orderRepository.update(order);
         return OrderDto.toDto(order);
     }
