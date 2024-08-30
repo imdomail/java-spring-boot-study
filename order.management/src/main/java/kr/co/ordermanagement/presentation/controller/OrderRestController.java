@@ -37,7 +37,8 @@ public class OrderRestController {
 
     @RequestMapping(value = "/orders/{orderId}", method = RequestMethod.GET)
     public ResponseEntity<OrderDto> findOrderById(@PathVariable Long orderId) {
-        return ResponseEntity.ok(new OrderDto());
+        OrderDto orderDto = simpleOrderService.findById(orderId);
+        return ResponseEntity.ok(orderDto);
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)

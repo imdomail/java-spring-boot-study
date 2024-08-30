@@ -38,5 +38,8 @@ public class Order {
                 .reduce(0, Integer::sum);
     }
 
+    public Boolean sameId(Long id) {
+        return this.id.equals(id);
+    }
 
 }
