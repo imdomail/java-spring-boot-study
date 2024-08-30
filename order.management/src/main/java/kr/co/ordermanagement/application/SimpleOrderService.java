@@ -1,5 +1,6 @@
 package kr.co.ordermanagement.application;
 
+import kr.co.ordermanagement.domain.exception.LackOfProductAmountException;
 import kr.co.ordermanagement.domain.order.Order;
 import kr.co.ordermanagement.domain.order.OrderRepository;
 import kr.co.ordermanagement.domain.order.OrderedProduct;
@@ -12,6 +13,7 @@ import kr.co.ordermanagement.presentation.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,17 +29,25 @@ public class SimpleOrderService {
     }
 
     public OrderDto createOrder(List<CreateOrderRequestDto > orderedInfos) {
-        List<OrderedProduct> orderedProducts = orderedInfos.stream().map(orderedInfo -> {
-            Product foundProduct = productRepository.findById(orderedInfo.getId());
-            return new OrderedProduct(
-                foundProduct.getId(),
-                foundProduct.getName(),
-                foundProduct.getPrice(),
-                orderedInfo.getAmount()
-            );
-        }).toList();
+        orderedInfos.stream().forEach(orderedInfo -> {
+            Product product = productRepository.findById(orderedInfo.getId());
+            if (product.getAmount() - orderedInfo.getAmount() < 0) {
+                throw new LackOfProductAmountException(orderedInfo.getId() + "번 상품의 수량이 부족합니다.");
+            }
+        });
 
-        // TODO: 재고 확인, 재고 수량 감소
+        List<OrderedProduct> orderedProducts = new ArrayList<>();
+        orderedInfos.forEach(orderedInfo -> {
+            Product product = productRepository.findById(orderedInfo.getId());
+            orderedProducts.add(new OrderedProduct(
+                    product.getId(),
+                    product.getName(),
+                    product.getPrice(),
+                    orderedInfo.getAmount()
+            ));
+            product.decreaseAmount(orderedInfo.getAmount());
+            productRepository.update(product);
+        });
         Order order = orderRepository.add(new Order(orderedProducts));
         return OrderDto.toDto(order);
     }
