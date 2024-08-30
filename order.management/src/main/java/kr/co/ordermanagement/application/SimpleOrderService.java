@@ -1,5 +1,6 @@
 package kr.co.ordermanagement.application;
 
+import kr.co.ordermanagement.domain.exception.CanNotCancelOrderException;
 import kr.co.ordermanagement.domain.exception.LackOfProductAmountException;
 import kr.co.ordermanagement.domain.order.Order;
 import kr.co.ordermanagement.domain.order.OrderRepository;
@@ -65,6 +66,9 @@ public class SimpleOrderService {
 
     public OrderDto cancel(Long orderId) {
         Order order = orderRepository.findById(orderId);
+        if (order.getState() != State.CREATED) {
+            throw new CanNotCancelOrderException("이미 취소되었거나 취소할 수 없는 주문상태입니다.");
+        }
         order.setState(State.CANCELED);
         orderRepository.update(order);
         return OrderDto.toDto(order);
